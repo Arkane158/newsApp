@@ -34,19 +34,19 @@ class _HomeScreenState extends State<HomeScreen> {
         categoryTittle: 'Politics'),
     Category(
         categoryColor: HomeScreen.healthColor,
-        categoryId: 'Health',
+        categoryId: 'health',
         categoryImageUrl: 'assets/images/health.png',
         categoryTittle: 'Health'),
     Category(
         categoryColor: HomeScreen.businessColor,
-        categoryId: 'Buisness',
+        categoryId: 'business',
         categoryImageUrl: 'assets/images/bussines.png',
-        categoryTittle: 'Buisness'),
+        categoryTittle: 'Business'),
     Category(
         categoryColor: HomeScreen.environmentColor,
-        categoryId: 'Environment',
+        categoryId: 'technology',
         categoryImageUrl: 'assets/images/environment.png',
-        categoryTittle: 'Environment'),
+        categoryTittle: 'Technology'),
     Category(
         categoryColor: HomeScreen.scienceColor,
         categoryId: 'Science',

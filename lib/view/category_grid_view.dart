@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class CategoryGridview extends StatelessWidget {
   const CategoryGridview({
     Key? key,
@@ -43,7 +44,6 @@ class CategoryGridview extends StatelessWidget {
     );
   }
 }
-
 
 class Category {
   Category(
