@@ -22,5 +22,8 @@ class MyTheme {
       textTheme: const TextTheme(
           titleLarge: TextStyle(
               color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-          titleMedium: TextStyle(color: Colors.black, fontSize: 16,)));
+          titleMedium: TextStyle(
+            color: Colors.black,
+            fontSize: 16,
+          )));
 }

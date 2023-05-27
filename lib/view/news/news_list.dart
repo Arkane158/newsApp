@@ -4,6 +4,7 @@ import 'package:news/view/news/news_body_item.dart';
 
 import '../../core/api/models/news/news.dart';
 import '../../core/api/models/sources_response/source.dart';
+import 'news_details.dart';
 
 class NewsList extends StatelessWidget {
   final Source source;
@@ -30,7 +31,16 @@ class NewsList extends StatelessWidget {
         var newsList = snapshot.data?.articles;
         return ListView.separated(
           itemBuilder: (__, index) {
-            return NewsBodyItem(article: newsList![index]);
+            return InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            NewsDetails(article: newsList[index]),
+                      ));
+                },
+                child: NewsBodyItem(article: newsList![index]));
           },
           separatorBuilder: (context, index) {
             return Container(
