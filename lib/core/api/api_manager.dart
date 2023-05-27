@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:news/core/api/models/sources_response/sources_response.dart';
 
-import 'models/news/news.dart';
+import 'models/article/news.dart';
 
 class ApiManager {
   //https://newsapi.org/v2/top-headlines/sources?apiKe=3e92671b6e6547a29500314bb8cb14e5&category=sports

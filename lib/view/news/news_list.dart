@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news/core/api/api_manager.dart';
 import 'package:news/view/news/news_body_item.dart';
 
-import '../../core/api/models/news/news.dart';
+import '../../core/api/models/article/news.dart';
 import '../../core/api/models/sources_response/source.dart';
 import 'news_details.dart';
 

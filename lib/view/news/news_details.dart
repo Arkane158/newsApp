@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:news/core/api/models/news/article.dart';
+import 'package:news/core/api/models/article/article.dart';
 
 class NewsDetails extends StatelessWidget {
   static const String screenName = 'newsDetails';
