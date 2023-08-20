@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news/view/category_list_screen.dart';
+import 'package:news/presentation/category/category_list_screen.dart';
 
 import 'category_grid_view.dart';
 

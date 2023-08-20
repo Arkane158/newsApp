@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:news/core/api/models/article/article.dart';
+import 'package:news/domain/models/article/article.dart';
 
 class NewsDetails extends StatelessWidget {
   static const String screenName = 'newsDetails';
-  final Article article;
+  final Article? article;
   const NewsDetails({super.key, required this.article});
 
   @override
@@ -20,7 +20,7 @@ class NewsDetails extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            article.title ?? '',
+            article?.title ?? '',
           ),
         ),
         body: Padding(
@@ -30,7 +30,7 @@ class NewsDetails extends StatelessWidget {
               ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(18)),
                 child: CachedNetworkImage(
-                  imageUrl: article.urlToImage ?? '',
+                  imageUrl: article?.urlToImage ?? '',
                   placeholder: (context, url) =>
                       const Center(child: CircularProgressIndicator()),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -38,12 +38,12 @@ class NewsDetails extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 18.0),
-                child: Text('Author: ${article.author}'),
+                child: Text('Author: ${article?.author}'),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 18.0),
                 child: Text(
-                  article.title ?? '',
+                  article?.title ?? '',
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge
@@ -51,12 +51,12 @@ class NewsDetails extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              Text(article.publishedAt ?? ''),
+              Text(article?.publishedAt ?? ''),
               Padding(
                 padding: const EdgeInsets.only(top: 18.0),
                 child: SingleChildScrollView(
                   child: Text(
-                    article.description ?? '',
+                    article?.description ?? '',
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium

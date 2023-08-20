@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:news/core/api/models/sources_response/source.dart';
-import 'package:news/view/news/news_list.dart';
-import 'package:news/view/news/news_source_item.dart';
+import 'package:news/domain/models/sources_response/source.dart';
+import 'package:news/presentation/news/di.dart';
+import 'package:news/presentation/news/news_list.dart';
+import 'package:news/presentation/news/news_source_item.dart';
+import 'package:news/presentation/news/news_viewmodel.dart';
 
 class NewsTab extends StatefulWidget {
   final List<Source> sources;
@@ -13,7 +15,9 @@ class NewsTab extends StatefulWidget {
 }
 
 class _NewsTabState extends State<NewsTab> {
+  NewsViewModel viewModel = NewsViewModel(injectNewsUsecase());
   int selectedIndex = 0;
+  Key newsListKey = UniqueKey(); // Add a key for NewsList
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +31,7 @@ class _NewsTabState extends State<NewsTab> {
                 onTap: (index) {
                   setState(() {
                     selectedIndex = index;
+                    newsListKey = UniqueKey(); // Update the key
                   });
                 },
                 tabs: widget.sources
@@ -40,7 +45,10 @@ class _NewsTabState extends State<NewsTab> {
                 indicatorColor: Colors.transparent,
               ),
               if (widget.sources.isNotEmpty)
-                Expanded(child: NewsList(source: widget.sources[selectedIndex]))
+                Expanded(
+                    child: NewsList(
+                        key: newsListKey,
+                        source: widget.sources[selectedIndex]))
             ],
           )),
     );

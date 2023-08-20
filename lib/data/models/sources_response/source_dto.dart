@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
+import 'package:news/domain/models/sources_response/source.dart';
 
-class Source {
+class SourceDTO {
   String? id;
   String? code;
   String? message;
@@ -11,7 +12,7 @@ class Source {
   String? language;
   String? country;
 
-  Source({
+  SourceDTO({
     this.id,
     this.name,
     this.description,
@@ -23,7 +24,7 @@ class Source {
     this.country,
   });
 
-  factory Source.fromJson(Map<String, dynamic> json) => Source(
+  factory SourceDTO.fromJson(Map<String, dynamic> json) => SourceDTO(
         id: json['id'] as String?,
         name: json['name'] as String?,
         description: json['description'] as String?,
@@ -48,9 +49,22 @@ class Source {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Source) return false;
+    if (other is! SourceDTO) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
+  }
+
+  Source toDoaminSource() {
+    return Source(
+        id: id,
+        name: name,
+        description: description,
+        url: url,
+        category: category,
+        language: language,
+        code: code,
+        message: message,
+        country: category);
   }
 
   @override

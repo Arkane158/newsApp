@@ -1,9 +1,10 @@
 import 'package:collection/collection.dart';
+import 'package:news/domain/models/article/article.dart';
 
-import '../sources_response/source.dart';
+import '../sources_response/source_dto.dart';
 
-class Article {
-  Source? source;
+class ArticleDTO {
+  SourceDTO? source;
   String? author;
   String? message;
   String? code;
@@ -14,7 +15,7 @@ class Article {
   String? publishedAt;
   String? content;
 
-  Article({
+  ArticleDTO({
     this.source,
     this.message,
     this.code,
@@ -27,10 +28,10 @@ class Article {
     this.content,
   });
 
-  factory Article.fromJson(Map<String, dynamic> json) => Article(
+  factory ArticleDTO.fromJson(Map<String, dynamic> json) => ArticleDTO(
         source: json['source'] == null
             ? null
-            : Source.fromJson(json['source'] as Map<String, dynamic>),
+            : SourceDTO.fromJson(json['source'] as Map<String, dynamic>),
         author: json['author'] as String?,
         title: json['title'] as String?,
         description: json['description'] as String?,
@@ -58,9 +59,23 @@ class Article {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! Article) return false;
+    if (other is! ArticleDTO) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
+  }
+
+  Article toDomainArticle() {
+    return Article(
+        author: author,
+        message: message,
+        code: code,
+        title: title,
+        description: description,
+        url: url,
+        urlToImage: urlToImage,
+        publishedAt: publishedAt,
+        content: content,
+        source: source?.toDoaminSource());
   }
 
   @override

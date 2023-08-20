@@ -1,23 +1,26 @@
 import 'package:collection/collection.dart';
+import 'package:news/domain/models/article/article_response.dart';
 
-import 'article.dart';
+import 'article_dto.dart';
 
-class News {
+class ArticleResponseDTO {
   String? status;
   String? code;
   String? message;
   int? totalResults;
-  List<Article>? articles;
+  List<ArticleDTO>? articles;
 
-  News({this.status, this.totalResults, this.articles,this.code,this.message});
+  ArticleResponseDTO(
+      {this.status, this.totalResults, this.articles, this.code, this.message});
 
-  factory News.fromJson(Map<String, dynamic> json) => News(
+  factory ArticleResponseDTO.fromJson(Map<String, dynamic> json) =>
+      ArticleResponseDTO(
         status: json['status'] as String?,
         code: json['code'] as String?,
         message: json['message'] as String?,
         totalResults: json['totalResults'] as int?,
         articles: (json['articles'] as List<dynamic>?)
-            ?.map((e) => Article.fromJson(e as Map<String, dynamic>))
+            ?.map((e) => ArticleDTO.fromJson(e as Map<String, dynamic>))
             .toList(),
       );
 
@@ -30,9 +33,18 @@ class News {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    if (other is! News) return false;
+    if (other is! ArticleResponseDTO) return false;
     final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
+  }
+
+  ArticleResponse toDomainNews() {
+    return ArticleResponse(
+      status: status,
+      totalResults: totalResults,
+      articles:
+          articles?.map((articleDTO) => articleDTO.toDomainArticle()).toList(),
+    );
   }
 
   @override
