@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news/presentation/category/category_list_screen.dart';
+import 'package:news/presentation/search/search_screen.dart';
 
 import 'category_grid_view.dart';
 
@@ -67,6 +68,17 @@ class _HomeScreenState extends State<HomeScreen> {
           title: Text(selectedCategory == null
               ? "News App"
               : selectedCategory!.categoryTittle),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  showSearch(context: context, delegate:SearchNews() );
+                  
+                },
+                icon: const Icon(
+                  Icons.search,
+                  size: 35,
+                ))
+          ],
         ),
         drawer: Drawer(
             child: Column(

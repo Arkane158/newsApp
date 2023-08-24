@@ -11,12 +11,12 @@ class NewsViewModel extends Cubit<NewsState> {
   getAerticle(String sourceId) async {
     try {
       var response = await useCase.invoke(sourceId);
-      
+
       if (response?.status == 'error') {
         emit(ErrorState(response?.message.toString()));
       } else if (response?.status == 'ok') {
         emit(SuccessState(response!.articles!));
-      } else if (response?.articles == null) {
+      } else {
         emit(LoadingState());
       }
     } catch (e) {

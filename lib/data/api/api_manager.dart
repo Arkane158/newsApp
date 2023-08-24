@@ -37,4 +37,11 @@ class ApiManager {
     var response1 = await http.get(url);
     return ArticleResponseDTO.fromJson(jsonDecode(response1.body));
   }
+
+  Future<ArticleResponseDTO> searchNews(String searchKeyWord) async{
+    var url =  Uri.https(
+        baseUrl, 'v2/everything', {'apiKey': apiKey, 'q': searchKeyWord});
+         var response1 = await http.get(url);
+    return ArticleResponseDTO.fromJson(jsonDecode(response1.body));
+  }
 }
