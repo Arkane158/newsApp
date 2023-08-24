@@ -65,21 +65,17 @@ class SearchNews extends SearchDelegate {
         color: Colors.white,
         child: BlocBuilder<SearchViewModel, SearchState>(
             builder: (context, state) {
-          print(state);
           if (state is LoadingState) {
-            print(state);
 
             return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (state is ErrorState) {
-            print(state);
 
             Center(
               child: Text(state.errorMessage),
             );
           } else if (state is SuccessState) {
-            print(state);
 
             var newsList = state.response;
             return ListView.separated(
