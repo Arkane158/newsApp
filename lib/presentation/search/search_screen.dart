@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news/domain/models/article/article.dart';
 import 'package:news/presentation/news/news_body_item.dart';
 import 'package:news/presentation/news/news_details.dart';
 import 'package:news/presentation/search/di.dart';
@@ -47,6 +48,7 @@ class SearchNews extends SearchDelegate {
     return IconButton(
       onPressed: () {
         Navigator.pop(context);
+        viewModel.close();
       },
       icon: const Icon(
         Icons.clear,
@@ -57,60 +59,57 @@ class SearchNews extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    viewModel.searchNews(query);
-
     return BlocProvider(
       create: (context) => viewModel,
       child: Container(
         color: Colors.white,
-        child: BlocBuilder<SearchViewModel, SearchState>(
-            builder: (context, state) {
-          if (state is LoadingState) {
-
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is ErrorState) {
-
-            Center(
-              child: Text(state.errorMessage),
-            );
-          } else if (state is SuccessState) {
-
-            var newsList = state.response;
-            return ListView.separated(
-              itemBuilder: (__, index) {
-                return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                NewsDetails(article: newsList[index]),
-                          ));
-                    },
-                    child: NewsBodyItem(article: newsList[index]));
-              },
-              separatorBuilder: (context, index) {
-                return Container(
-                  height: 10,
-                );
-              },
-              itemCount: newsList.length,
-            );
-          } else {
-            const Center(
-              child: Text('Something Went Wrong \nTry Again Later'),
-            );
-          }
-          return Container();
-        }),
+        child: StreamBuilder<List<Article?>>(
+          stream: viewModel.articleStream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Center(
+                  child: Text("Couldn't Find Anything Related"));
+            } else {
+              var newsList = snapshot.data!;
+              return newsList.isEmpty
+                  ? const Center(child: Text("Couldn't Find Anything Related"))
+                  : ListView.separated(
+                      itemBuilder: (__, index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    NewsDetails(article: newsList[index]!),
+                              ),
+                            );
+                          },
+                          child: NewsBodyItem(article: newsList[index]!),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return Container(
+                          height: 10,
+                        );
+                      },
+                      itemCount: newsList.length,
+                    );
+            }
+          },
+        ),
       ),
     );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    viewModel.searchNews(query);
+
     return Container(
       color: Colors.white,
     );
