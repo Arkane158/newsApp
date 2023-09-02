@@ -31,17 +31,26 @@ class ApiManager {
   }
 
   Future<ArticleResponseDTO> getNews(String sourceId) async {
-    //https://newsapi.org/v2/everything?sources=bbc-sport&apiKey=3e92671b6e6547a29500314bb8cb14e5
+    try {  //https://newsapi.org/v2/everything?sources=bbc-sport&apiKey=3e92671b6e6547a29500314bb8cb14e5
     var url = Uri.https(
         baseUrl, 'v2/everything', {'apiKey': apiKey, 'sources': sourceId});
     var response1 = await http.get(url);
     return ArticleResponseDTO.fromJson(jsonDecode(response1.body));
-  }
+  } catch (e) {
+      rethrow;
+    }
+}
 
-  Future<ArticleResponseDTO> searchNews(String searchKeyWord) async{
-    var url =  Uri.https(
+  
+  Future<ArticleResponseDTO> searchNews(String searchKeyWord) async {
+    try{
+var url = Uri.https(
         baseUrl, 'v2/everything', {'apiKey': apiKey, 'q': searchKeyWord});
-         var response1 = await http.get(url);
+    var response1 = await http.get(url);
     return ArticleResponseDTO.fromJson(jsonDecode(response1.body));
+    }catch(e){
+      rethrow;
+    }
+    
   }
 }

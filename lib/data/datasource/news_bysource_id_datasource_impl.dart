@@ -8,8 +8,12 @@ class GetNewsBySourceIdDataSourceImplementation
   GetNewsBySourceIdDataSourceImplementation(this.apiManager);
   @override
   Future<ArticleResponse?> getNews(String sourceId) async {
-    var response = await apiManager.getNews(sourceId);
-    return response.toDomainNews();
+    try {
+      var response = await apiManager.getNews(sourceId);
+      return response.toDomainNews();
+    } catch (e) {
+      rethrow;
+    }
   }
 }
 

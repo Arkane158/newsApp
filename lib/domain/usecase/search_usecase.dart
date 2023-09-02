@@ -5,6 +5,10 @@ class SearchUseCase {
   NewsSearchRepositoryContract repository;
   SearchUseCase(this.repository);
   Future<ArticleResponse> searchNews(String keyWord) async {
-    return await repository.searchNews(keyWord);
+    try {
+      return await repository.searchNews(keyWord);
+    } catch (e) {
+      throw 'something went wrong ${e.toString()}';
+    }
   }
 }

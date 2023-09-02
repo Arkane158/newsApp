@@ -8,8 +8,12 @@ class SearchNewsDataSourceImplementation
   SearchNewsDataSourceImplementation(this.apiManager);
   @override
   Future<ArticleResponse> searchNews(String keyWord) async {
-    var response = await apiManager.searchNews(keyWord);
-    return response.toDomainNews();
+    try {
+      var response = await apiManager.searchNews(keyWord);
+      return response.toDomainNews();
+    } catch (e) {
+      rethrow;
+    }
   }
 }
 

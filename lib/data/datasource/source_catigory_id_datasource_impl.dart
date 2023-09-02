@@ -9,8 +9,12 @@ class GetSourceWithCategoryIdDataSource
 
   @override
   Future<SourcesResponse?> getSourceWithCatigoryId(String id) async {
-    var response = await apiManager.getSource(id);
-    return response.toDomainResponse();
+    try {
+      var response = await apiManager.getSource(id);
+      return response.toDomainResponse();
+    } catch (e) {
+      rethrow;
+    }
   }
 }
 

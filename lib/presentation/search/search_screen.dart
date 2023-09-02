@@ -63,42 +63,53 @@ class SearchNews extends SearchDelegate {
       create: (context) => viewModel,
       child: Container(
         color: Colors.white,
-        child: StreamBuilder<List<Article?>>(
-          stream: viewModel.articleStream,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Center(
-                  child: Text("Couldn't Find Anything Related"));
+        child: BlocBuilder<SearchViewModel, SearchState>(
+          builder: (context, state) {
+            if (state is ErrorState) {
+              return Center(
+                child: Text(state.errorMessage),
+              );
             } else {
-              var newsList = snapshot.data!;
-              return newsList.isEmpty
-                  ? const Center(child: Text("Couldn't Find Anything Related"))
-                  : ListView.separated(
-                      itemBuilder: (__, index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    NewsDetails(article: newsList[index]!),
-                              ),
-                            );
-                          },
-                          child: NewsBodyItem(article: newsList[index]!),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return Container(
-                          height: 10,
-                        );
-                      },
-                      itemCount: newsList.length,
-                    );
+              return StreamBuilder<List<Article?>>(
+                stream: viewModel.articleStream,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.connectionState is ErrorState) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(
+                        child: Text("Couldn't Find Anything Related"));
+                  } else {
+                    var newsList = snapshot.data!;
+                    return newsList.isEmpty
+                        ? const Center(
+                            child: Text("Couldn't Find Anything Related"))
+                        : ListView.separated(
+                            itemBuilder: (__, index) {
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => NewsDetails(
+                                          article: newsList[index]!),
+                                    ),
+                                  );
+                                },
+                                child: NewsBodyItem(article: newsList[index]!),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return Container(
+                                height: 10,
+                              );
+                            },
+                            itemCount: newsList.length,
+                          );
+                  }
+                },
+              );
             }
           },
         ),

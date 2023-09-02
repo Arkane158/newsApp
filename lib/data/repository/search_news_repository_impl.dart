@@ -9,10 +9,14 @@ class SearchNewsRepositoryImplementation
   SearchNewsRepositoryImplementation(this.datasource);
   @override
   Future<ArticleResponse> searchNews(String keyWord) async {
-    return await datasource.searchNews(keyWord);
+    try {
+      return await datasource.searchNews(keyWord);
+    } catch (e) {
+      rethrow;
+    }
   }
 }
 
 NewsSearchRepositoryContract injectSearchNewsRepo() {
-  return SearchNewsRepositoryImplementation(injectSearchNewsDataSource() );
+  return SearchNewsRepositoryImplementation(injectSearchNewsDataSource());
 }

@@ -15,7 +15,7 @@ class SearchViewModel extends Cubit<SearchState> {
 
   Stream<List<Article?>> get articleStream => _articleStreamController.stream;
 
-  void searchNews(String keyWord) {
+  void searchNews(String keyWord) async {
     if (_articleList.isNotEmpty) {
       _articleList.clear();
     }

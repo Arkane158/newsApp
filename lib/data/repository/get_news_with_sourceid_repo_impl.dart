@@ -9,7 +9,11 @@ class GetNewsWithSourceIdRepositoryImplementation
 
   @override
   Future<ArticleResponse?> getNews(String sourceId) async {
-    return await datasource.getNews(sourceId);
+    try {
+      return await datasource.getNews(sourceId);
+    } catch (e) {
+      rethrow;
+    }
   }
 }
 

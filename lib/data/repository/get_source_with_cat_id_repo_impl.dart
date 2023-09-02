@@ -9,7 +9,11 @@ class GetSourceWithCategoryIdRepositoryImplementation
 
   @override
   Future<SourcesResponse?> getSourceWithCatigoryId(String id) async {
-    return await dataSource.getSourceWithCatigoryId(id);
+    try {
+      return await dataSource.getSourceWithCatigoryId(id);
+    } catch (e) {
+      rethrow;
+    }
   }
 }
 
